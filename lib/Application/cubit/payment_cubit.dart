@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payment/Application/cubit/payment_state.dart';
@@ -89,7 +91,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         },
         "currency": "EGP",
         "integration_id": integrationCardId,
-        "lock_order_when_paid": "true"
+        "lock_order_when_paid": "false"
       },
     ).then((value) {
       finalTokenCard = value.data["token"].toString();
@@ -108,7 +110,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     String price,
   ) async {
     DioHelperPayment.postPaymentData(
-      url: paymentKeyRequestKiosk,
+      url: paymentKeyRequestCard,
       data: {
         "auth_token": payMobFirstToken,
         "amount_cents": price,
@@ -131,7 +133,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         },
         "currency": "EGP",
         "integration_id": integrationKioskId,
-        "lock_order_when_paid": "true"
+        "lock_order_when_paid": "false"
       },
     ).then((value) {
       finalTokenKiosk = value.data["token"];
@@ -141,59 +143,4 @@ class PaymentCubit extends Cubit<PaymentState> {
       emit(PaymentRequestTokenKioskErrorState(error));
     });
   }
-}
-
-class PaymentError extends Error {
-  String message;
-  PaymentError(this.message);
-}
-
-class PaymentSuccess {
-  String orderId;
-  PaymentSuccess(this.orderId);
-}
-
-class PaymentState {
-}
-
-class PaymentInitialState extends PaymentState {}
-
-class PaymentErrorState extends PaymentState {
-  PaymentError error;
-  PaymentErrorState(this.error);
-}
-
-class PaymentSuccessState extends PaymentState {
-  PaymentSuccess success;
-  PaymentSuccessState(this.success);
-}
-
-class PaymentOrderIdSuccessState extends PaymentState {
-  String orderId;
-  PaymentOrderIdSuccessState(this.orderId);
-}
-
-class PaymentOrderIdErrorState extends PaymentState {
-  String error;
-  PaymentOrderIdErrorState(this.error);
-}
-
-class PaymentRequestTokenSuccessState extends PaymentState {
-  String token;
-  PaymentRequestTokenSuccessState(this.token);
-}
-
-class PaymentRequestTokenErrorState extends PaymentState {
-  String error;
-  PaymentRequestTokenErrorState(this.error);
-}
-
-class PaymentRequestTokenKioskSuccessState extends PaymentState {
-  String token;
-  PaymentRequestTokenKioskSuccessState(this.token);
-}
-
-class PaymentRequestTokenKioskErrorState extends PaymentState {
-  String error;
-  PaymentRequestTokenKioskErrorState(this.error);
 }
