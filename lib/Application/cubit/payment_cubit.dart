@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payment/Application/cubit/payment_state.dart';
 import 'package:payment/Application/utils/constants.dart';
@@ -17,8 +16,8 @@ class PaymentCubit extends Cubit<PaymentState> {
     String lastName,
     String email,
     String phoneNumber,
-    String price)
-   async {
+    String price,
+  ) async {
     DioHelperPayment.postPaymentData(
       url: authenticationRequest,
       data: {"api_key": payMobApiKey},
@@ -39,17 +38,16 @@ class PaymentCubit extends Cubit<PaymentState> {
     String phoneNumber,
     String price,
   ) async {
-    DioHelperPayment.postPaymentData(
+     DioHelperPayment.postPaymentData(
       url: orderRegistrationApi,
       data: {
-        "api_key": payMobFirstToken,
+        "auth_token": payMobFirstToken,
         "delivery_needed": "false",
         "amount_cents": price,
         "currency": "EGP",
         "items": [],
       },
     ).then((value) {
-      debugPrint("$value");
       payMobOrderId = value.data["id"].toString();
       print('Order Id : $payMobOrderId');
       getFinalTokenCard(firstName, lastName, email, phoneNumber, price);
