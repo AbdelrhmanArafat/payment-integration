@@ -8,4 +8,4 @@ String orderRegistrationApi = 'ecommerce/orders';
 
 String paymentKeyRequestCard = 'acceptance/payment_keys';
 
-// String paymentKeyRequestKiosk = 'payment_keys';
+String paymentKeyRequestKiosk = 'acceptance/payments/pay';

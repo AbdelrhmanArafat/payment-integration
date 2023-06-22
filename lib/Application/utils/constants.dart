@@ -9,8 +9,8 @@ String finalTokenCard = '';
 
 String finalTokenKiosk = '';
 
+String referenceCode = '';
+
 String integrationCardId = '3938315';
 
 String integrationKioskId = '3941765';
-
-String referenceCode = '';

@@ -38,7 +38,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     String phoneNumber,
     String price,
   ) async {
-     DioHelperPayment.postPaymentData(
+    DioHelperPayment.postPaymentData(
       url: orderRegistrationApi,
       data: {
         "auth_token": payMobFirstToken,
@@ -94,9 +94,9 @@ class PaymentCubit extends Cubit<PaymentState> {
     ).then((value) {
       finalTokenCard = value.data["token"].toString();
       print('Final Token Card : $finalTokenCard');
-      emit(PaymentRequestTokenSuccessState());
+      emit(PaymentRequestTokenCardSuccessState());
     }).catchError((error) {
-      emit(PaymentRequestTokenErrorState(error));
+      emit(PaymentRequestTokenCardErrorState(error));
     });
   }
 
@@ -136,6 +136,26 @@ class PaymentCubit extends Cubit<PaymentState> {
     ).then((value) {
       finalTokenKiosk = value.data["token"];
       print('Final Token Kiosk : $finalTokenKiosk');
+      getReferenceCodeKiosk();
+      emit(PaymentRequestTokenKioskSuccessState());
+    }).catchError((error) {
+      emit(PaymentRequestTokenKioskErrorState(error));
+    });
+  }
+
+  Future getReferenceCodeKiosk() async {
+    DioHelperPayment.postPaymentData(
+      url: paymentKeyRequestKiosk,
+      data: {
+        "source": {
+          "identifier": "AGGREGATOR",
+          "subtype": "AGGREGATOR",
+        },
+        "payment_token": finalTokenKiosk,
+      },
+    ).then((value) {
+      referenceCode = value.data["id"].toString();
+      print('Reference Code Kiosk : $referenceCode');
       emit(PaymentRequestTokenKioskSuccessState());
     }).catchError((error) {
       emit(PaymentRequestTokenKioskErrorState(error));

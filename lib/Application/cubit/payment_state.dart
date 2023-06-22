@@ -16,11 +16,11 @@ class PaymentOrderIdErrorState extends PaymentState {
   PaymentOrderIdErrorState(this.error);
 }
 
-class PaymentRequestTokenSuccessState extends PaymentState {}
+class PaymentRequestTokenCardSuccessState extends PaymentState {}
 
-class PaymentRequestTokenErrorState extends PaymentState {
+class PaymentRequestTokenCardErrorState extends PaymentState {
   String error;
-  PaymentRequestTokenErrorState(this.error);
+  PaymentRequestTokenCardErrorState(this.error);
 }
 
 class PaymentRequestTokenKioskSuccessState extends PaymentState {}
