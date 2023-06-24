@@ -3,8 +3,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payment/Application/cubit/payment_state.dart';
 import 'package:payment/Application/utils/constants.dart';
-import 'package:payment/Domain/Api%20Network/dio_helper.dart';
-import 'package:payment/Domain/Api%20Network/end_points.dart';
+import 'package:payment/Domain/Api_Network/dio_helper.dart';
+import 'package:payment/Domain/Api_Network/end_points.dart';
 
 class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit() : super(PaymentInitialState());
@@ -156,9 +156,9 @@ class PaymentCubit extends Cubit<PaymentState> {
     ).then((value) {
       referenceCode = value.data["id"].toString();
       print('Reference Code Kiosk : $referenceCode');
-      emit(PaymentRequestTokenKioskSuccessState());
+      emit(PaymentReferenceCodKioskSuccessState());
     }).catchError((error) {
-      emit(PaymentRequestTokenKioskErrorState(error));
+      emit(PaymentReferenceCodeKioskErrorState(error));
     });
   }
 }

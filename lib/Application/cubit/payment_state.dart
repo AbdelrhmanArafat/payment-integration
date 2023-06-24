@@ -29,3 +29,10 @@ class PaymentRequestTokenKioskErrorState extends PaymentState {
   String error;
   PaymentRequestTokenKioskErrorState(this.error);
 }
+
+class PaymentReferenceCodKioskSuccessState extends PaymentState {}
+
+class PaymentReferenceCodeKioskErrorState extends PaymentState {
+  String error;
+  PaymentReferenceCodeKioskErrorState(this.error);
+}

@@ -5,6 +5,7 @@ import 'package:payment/Application/cubit/payment_state.dart';
 import 'package:payment/Application/utils/color.dart';
 import 'package:payment/Application/widgets/my_button.dart';
 import 'package:payment/Application/widgets/my_text_from_field.dart';
+import 'package:payment/Presentation/Modules/Toggle_Screen/page/toggle_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -19,7 +20,18 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PaymentCubit(),
-      child: BlocBuilder<PaymentCubit, PaymentState>(
+      child: BlocConsumer<PaymentCubit, PaymentState>(
+        listener: (context, state) {
+          if (state is PaymentReferenceCodKioskSuccessState) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ToggleScreen(),
+              ),
+              (Route<dynamic> route) => false,
+            );
+          }
+        },
         builder: (context, state) => Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
@@ -107,13 +119,15 @@ class RegisterScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     MyButton(
                       onPressed: () async {
-                        PaymentCubit.get(context).getFirstToken(
-                          firstNameController.text,
-                          lastNameController.text,
-                          emailController.text,
-                          phoneNumberController.text,
-                          priceController.text,
-                        );
+                        if (formKey.currentState!.validate()) {
+                          PaymentCubit.get(context).getFirstToken(
+                            firstNameController.text,
+                            lastNameController.text,
+                            emailController.text,
+                            phoneNumberController.text,
+                            priceController.text,
+                          );
+                        }
                       },
                       text: 'Go To Pay',
                       radius: 15,
